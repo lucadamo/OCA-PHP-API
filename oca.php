@@ -31,7 +31,7 @@
 /**
 * OCA PHP API Class
 *
-* @link https://github.com/juanchorossi/OCA-PHP-API
+* @link https://github.com/nerioespina/OCA-PHP-API
 * @version 0.1.1
 */
 
@@ -84,7 +84,7 @@ class Oca
 	 */
 	public function setUserAgent()
 	{
-		return 'OCA-PHP-API ' . self::VERSION . ' - github.com/juanchorossi/OCA-PHP-API';
+		return 'OCA-PHP-API ' . self::VERSION . ' - github.com/nerioespina/OCA-PHP-API';
 	}
 
 	// =========================================================================
