@@ -3,7 +3,7 @@ Clase PHP para OCA Express Pak.
 ### Con Composer
 Desde línea de comandos
 ```
-composer require juanchorossi/oca-php-api:dev-master
+composer require nerioespina/oca-php-api
 ```
 
 Como dependencia en tu proyecto a través de composer.json
@@ -11,7 +11,7 @@ Como dependencia en tu proyecto a través de composer.json
 ```json
 {
     "require": {
-        "juanchorossi/oca-php-api": "dev-master"
+        "nerioespina/oca-php-api": "dev-master"
     }
 }
 ```
