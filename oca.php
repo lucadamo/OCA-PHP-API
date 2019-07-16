@@ -309,6 +309,7 @@ class Oca
 								'Numero'				=> $ci->getElementsByTagName('Numero')->item(0)->nodeValue,
 								'Piso'					=> $ci->getElementsByTagName('Piso')->item(0)->nodeValue,
 								'Localidad'				=> $ci->getElementsByTagName('Localidad')->item(0)->nodeValue,
+					 			'CodigoPostal'				=> $ci->getElementsByTagName('codigopostal')->item(0)->nodeValue,
 							);
 		}
 		
