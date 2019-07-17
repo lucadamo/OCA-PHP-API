@@ -11,7 +11,7 @@ Como dependencia en tu proyecto a través de composer.json
 ```json
 {
     "require": {
-        "nerioespina/oca-php-api": "dev-master"
+        "nerioespina/oca-php-api": "1.0"
     }
 }
 ```
