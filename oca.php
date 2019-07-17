@@ -37,7 +37,7 @@
 
 class Oca
 {
-	const VERSION				= '0.1.1';
+	const VERSION				= '1.0';
 	protected $webservice_url	= 'webservice.oca.com.ar';
 
 	const FRANJA_HORARIA_8_17HS = 1;
