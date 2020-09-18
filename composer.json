@@ -1,5 +1,5 @@
 {
-    "name": "nerioespina/oca-php-api",
+    "name": "lucadamo/oca-php-api",
     "description": "PHP class for OCA Express Pak",
     "keywords": ["oca", "oca express pak"],
     "license": "GPL-3.0+",
@@ -11,7 +11,12 @@
         {
             "name": "Nerio Espina",
             "email": "nerioespina@gmail.com"
+        },
+        {
+            "name": "Tomy Lucadamo",
+            "email": "tomy@lucadamo.com.ar"
         }
+        
     ],
     "require": {},
     "autoload": {

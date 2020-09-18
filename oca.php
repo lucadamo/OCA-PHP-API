@@ -187,12 +187,11 @@ class Oca
 	// =========================================================================
 
 	/**
-	 * Dado un envío se devuelven todos los eventos. En desarrollo, por falta de 
-	 * documentación oficial se desconoce su comportamiento.
+	 * Dado un envío se devuelven todos los eventos.
 	 * 
 	 * @param integer $pieza 
 	 * @param integer $nroDocumentoCliente
-	 * @return array $envios Contiene los valores NroProducto y NumeroEnvio
+	 * @return array $envios Contiene los valores NumeroEnvio, Descripcion_Motivo, Desdcripcion_Estado, SUC, fecha
 	 */
 	public function trackingPieza($pieza = '', $nroDocumentoCliente = '')
 	{
@@ -218,7 +217,12 @@ class Oca
 		$envio = array();
 		foreach (@$xpath->query("//NewDataSet/Table") as $tp)
 		{
-			$envio[] = array();
+			$envio[] = array(	'NumeroEnvio'		=> $tp->getElementsByTagName('NumeroEnvio')->item(0)->nodeValue,
+								'Descripcion_Motivo'		=> $tp->getElementsByTagName('Descripcion_Motivo')->item(0)->nodeValue,
+								'Desdcripcion_Estado'		=> $tp->getElementsByTagName('Desdcripcion_Estado')->item(0)->nodeValue,
+								'SUC'		=> $tp->getElementsByTagName('SUC')->item(0)->nodeValue,
+								'fecha'		=> $tp->getElementsByTagName('fecha')->item(0)->nodeValue,
+							);
 		}
 		
 		return $envio;
