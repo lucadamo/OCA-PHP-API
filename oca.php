@@ -219,7 +219,7 @@ class Oca
 		{
 			$envio[] = array(	'NumeroEnvio'		=> $tp->getElementsByTagName('NumeroEnvio')->item(0)->nodeValue,
 								'Descripcion_Motivo'		=> $tp->getElementsByTagName('Descripcion_Motivo')->item(0)->nodeValue,
-								'Descripcion_Estado'		=> $tp->getElementsByTagName('Descripcion_Estado')->item(0)->nodeValue,
+								'Descripcion_Estado'		=> $tp->getElementsByTagName('Desdcripcion_Estado')->item(0)->nodeValue,
 								'SUC'		=> $tp->getElementsByTagName('SUC')->item(0)->nodeValue,
 								'fecha'		=> $tp->getElementsByTagName('fecha')->item(0)->nodeValue,
 							);
