@@ -306,14 +306,56 @@ class Oca
 		$c_imp = array();
 		foreach (@$xpath->query("//NewDataSet/Table") as $ci)
 		{
+			$piso = '';
+			if (is_object($ci->getElementsByTagName('Piso')->item(0))){
+  			$piso = $ci->getElementsByTagName('Piso')->item(0)->nodeValue;
+			}
+			
 			$c_imp[] = array(	'idCentroImposicion'	=> $ci->getElementsByTagName('idCentroImposicion')->item(0)->nodeValue,
 								'Sigla'					=> $ci->getElementsByTagName('Sigla')->item(0)->nodeValue,
 								'Descripcion'			=> $ci->getElementsByTagName('Descripcion')->item(0)->nodeValue,
 								'Calle'					=> $ci->getElementsByTagName('Calle')->item(0)->nodeValue,
 								'Numero'				=> $ci->getElementsByTagName('Numero')->item(0)->nodeValue,
-								'Piso'					=> $ci->getElementsByTagName('Piso')->item(0)->nodeValue,
+								'Piso'					=> $piso,
 								'Localidad'				=> $ci->getElementsByTagName('Localidad')->item(0)->nodeValue,
 					 			'CodigoPostal'				=> $ci->getElementsByTagName('codigopostal')->item(0)->nodeValue,
+							);
+		}
+		
+		return $c_imp;
+	}
+	
+	// =========================================================================
+	
+	/**
+	 * Devuelve Listado de codigos postales asignados para cada agencia.
+	 * 
+	 * @return array $c_imp con informacion de los centros de imposicion
+	 */
+	public function getCodigosPostalesXCentroImposicion($sucursal)
+	{
+		$ch = curl_init();
+		
+		curl_setopt_array($ch,	array(	CURLOPT_RETURNTRANSFER	=> TRUE,
+										CURLOPT_HEADER			=> FALSE,
+										CURLOPT_CONNECTTIMEOUT	=> 5,
+										CURLOPT_USERAGENT		=> $this->setUserAgent(),
+										CURLOPT_POSTFIELDS		=> 'idCentroImposicion='.(int)$sucursal,
+										CURLOPT_URL				=> "{$this->webservice_url}/epak_tracking/Oep_TrackEPak.asmx/GetCodigosPostalesXCentroImposicion",
+										CURLOPT_FOLLOWLOCATION	=> TRUE));
+
+		$dom = new DOMDocument();
+		@$dom->loadXML(curl_exec($ch));
+		$xpath = new DOMXpath($dom);
+	
+		$c_imp = array();
+		foreach (@$xpath->query("//NewDataSet/Table") as $ci)
+		{
+			$c_imp[] = array('CodigoPostal'				=> $ci->getElementsByTagName('CodigoPostal')->item(0)->nodeValue,
+			          'Localidad'				=> $ci->getElementsByTagName('Localidad')->item(0)->nodeValue,
+			          'Descripcion'			=> $ci->getElementsByTagName('Descripcion')->item(0)->nodeValue,
+			          'Sigla'					=> $ci->getElementsByTagName('Sigla')->item(0)->nodeValue,
+			          'Descripcion1'			=> $ci->getElementsByTagName('Descripcion1')->item(0)->nodeValue
 							);
 		}
 		
