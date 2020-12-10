@@ -259,6 +259,21 @@ class Oca
 		$c_imp = array();
 		foreach (@$xpath->query("//NewDataSet/Table") as $ci)
 		{
+			$piso = '';
+			if (is_object($ci->getElementsByTagName('Piso')->item(0))){
+  			$piso = $ci->getElementsByTagName('Piso')->item(0)->nodeValue;
+			}
+			
+			$dpto = '';
+			if (is_object($ci->getElementsByTagName('Depto')->item(0))){
+  			$dpto = $ci->getElementsByTagName('Depto')->item(0)->nodeValue;
+			}
+			
+			$tel = '';
+			if (is_object($ci->getElementsByTagName('Telefono')->item(0))){
+  			$tel = $ci->getElementsByTagName('Telefono')->item(0)->nodeValue;
+			}
+			
 			$c_imp[] = array(	'idCentroImposicion'	=> $ci->getElementsByTagName('idCentroImposicion')->item(0)->nodeValue,
 								'IdSucursalOCA'			=> $ci->getElementsByTagName('IdSucursalOCA')->item(0)->nodeValue,
 								'Sigla'					=> $ci->getElementsByTagName('Sigla')->item(0)->nodeValue,
@@ -266,12 +281,12 @@ class Oca
 								'Calle'					=> $ci->getElementsByTagName('Calle')->item(0)->nodeValue,
 								'Numero'				=> $ci->getElementsByTagName('Numero')->item(0)->nodeValue,
 								'Torre'					=> $ci->getElementsByTagName('Torre')->item(0)->nodeValue,
-								'Piso'					=> $ci->getElementsByTagName('Piso')->item(0)->nodeValue,
-								'Depto'					=> $ci->getElementsByTagName('Depto')->item(0)->nodeValue,
+								'Piso'					=> $piso,
+								'Depto'					=> $dpto,
 								'Localidad'				=> $ci->getElementsByTagName('Localidad')->item(0)->nodeValue,
 								'IdProvincia'			=> $ci->getElementsByTagName('IdProvincia')->item(0)->nodeValue,
 								'idCodigoPostal'		=> $ci->getElementsByTagName('idCodigoPostal')->item(0)->nodeValue,
-								'Telefono'				=> $ci->getElementsByTagName('Telefono')->item(0)->nodeValue,
+								'Telefono'				=> $tel,
 								'eMail'					=> $ci->getElementsByTagName('eMail')->item(0)->nodeValue,
 								'Provincia'				=> $ci->getElementsByTagName('Provincia')->item(0)->nodeValue,
 								'CodigoPostal'			=> $ci->getElementsByTagName('CodigoPostal')->item(0)->nodeValue
@@ -531,7 +546,6 @@ class Oca
 										CURLOPT_FOLLOWLOCATION	=> TRUE));
 
 		$xml = curl_exec($ch);
-		file_put_contents('ingresoORMultiplesRetiros.xml', $xml);
 
 		$dom = new DOMDocument();
 		@$dom->loadXml($xml);
@@ -651,7 +665,6 @@ class Oca
 										CURLOPT_FOLLOWLOCATION	=> TRUE));
 
 		$xml = curl_exec($ch);
-		file_put_contents('anularOrdenGenerada.xml', $xml);
 
 		$dom = new DOMDocument();
 		@$dom->loadXml($xml);
