@@ -343,6 +343,84 @@ class Oca
 	// =========================================================================
 	
 	/**
+	 * Devuelve todos los Centros de Imposición existentes con sus Servicios
+	 * 
+	 * @return array $c_imp con informacion de los centros de imposicion y sus Servicios
+	 */
+	public function getCentrosImposicionConServicios()
+	{
+		$ch = curl_init();
+		
+		curl_setopt_array($ch,	array(	CURLOPT_RETURNTRANSFER	=> TRUE,
+										CURLOPT_HEADER			=> FALSE,
+										CURLOPT_CONNECTTIMEOUT	=> 5,
+										CURLOPT_USERAGENT		=> $this->setUserAgent(),
+										CURLOPT_URL				=> "{$this->webservice_url}/epak_tracking/Oep_TrackEPak.asmx/GetCentrosImposicionConServicios",
+										CURLOPT_FOLLOWLOCATION	=> TRUE));
+
+		$dom = new DOMDocument();
+		@$dom->loadXML(curl_exec($ch));
+		$xpath = new DOMXpath($dom);
+	
+		$c_imp = array();
+		foreach (@$xpath->query("//CentrosDeImposicion/Centro") as $ci)
+		{
+			$torre = '';
+			if (is_object($ci->getElementsByTagName('Torre')->item(0))){
+  			$torre = trim($ci->getElementsByTagName('Torre')->item(0)->nodeValue);
+			}
+			$piso = '';
+			if (is_object($ci->getElementsByTagName('Piso')->item(0))){
+  			$piso = trim($ci->getElementsByTagName('Piso')->item(0)->nodeValue);
+			}
+			$dpto = '';
+			if (is_object($ci->getElementsByTagName('Depto')->item(0))){
+  			$dpto = trim($ci->getElementsByTagName('Depto')->item(0)->nodeValue);
+			}
+			
+			$arrayServicios = array();
+			if(is_object($ci->getElementsByTagName('Servicios')->item(0))){
+  			foreach($ci->getElementsByTagName('Servicios')->item(0)->childNodes as $servicios){
+          if($servicios->nodeType === 1){
+            $valuesServ = array();
+            foreach($servicios->childNodes as $node){
+              if($node->nodeType === 1){
+                $valuesServ[$node->nodeName] = $node->nodeValue;
+              }
+            }
+            $arrayServicios[] = $valuesServ;
+          }
+  		  }
+			}
+			
+			$c_imp[] = array(
+			          'idCentroImposicion'    => $ci->getElementsByTagName('IdCentroImposicion')->item(0)->nodeValue,
+								'Sigla'                 => trim($ci->getElementsByTagName('Sigla')->item(0)->nodeValue),
+								'Sucursal'              => trim($ci->getElementsByTagName('Sucursal')->item(0)->nodeValue),
+								'Calle'                 => trim($ci->getElementsByTagName('Calle')->item(0)->nodeValue),
+								'Numero'                => trim($ci->getElementsByTagName('Numero')->item(0)->nodeValue),
+								'Torre'                 => $torre,
+								'Piso'                  => $piso,
+								'Depto'                 => $dpto,
+								'Localidad'             => trim($ci->getElementsByTagName('Localidad')->item(0)->nodeValue),
+					 			'CodigoPostal'          => trim($ci->getElementsByTagName('CodigoPostal')->item(0)->nodeValue),
+					 			'Provincia'             => trim($ci->getElementsByTagName('Provincia')->item(0)->nodeValue),
+					 			'Telefono'              => trim($ci->getElementsByTagName('Telefono')->item(0)->nodeValue),
+					 			'Latitud'               => trim($ci->getElementsByTagName('Latitud')->item(0)->nodeValue),
+					 			'Longitud'              => trim($ci->getElementsByTagName('Longitud')->item(0)->nodeValue),
+					 			'TipoAgencia'           => trim($ci->getElementsByTagName('TipoAgencia')->item(0)->nodeValue),
+					 			'HorarioAtencion'       => trim($ci->getElementsByTagName('HorarioAtencion')->item(0)->nodeValue),
+					 			'SucursalOCA'           => trim($ci->getElementsByTagName('SucursalOCA')->item(0)->nodeValue),
+					 			'Servicios'             => $arrayServicios,
+							);
+		}
+		
+		return $c_imp;
+	}
+	
+	// =========================================================================
+	
+	/**
 	 * Devuelve Listado de codigos postales asignados para cada agencia.
 	 * 
 	 * @return array $c_imp con informacion de los centros de imposicion
