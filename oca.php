@@ -633,7 +633,6 @@ class Oca
 		$xml_resumen = @$xpath->query("//Resultado/Resumen ")->item(0);
 
 		$detalle_ingresos = array();
-
 		foreach($xml_detalle_ingresos as $item)
 		{
 			$detalle_ingresos[] = array(
@@ -646,19 +645,19 @@ class Oca
 				 );
 		}
 
+		$resumen = array();
+		if(is_object($xml_resumen)){
+			$resumen = array(
+					'CodigoOperacion' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)->nodeValue : ''),
+					'FechaIngreso' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('FechaIngreso')->item(0)->nodeValue : ''),
+					'MailUsuario' => ((is_object($xml_resumen->getElementsByTagName('mailUsuario')->item(0)))? $xml_resumen->getElementsByTagName('mailUsuario')->item(0)->nodeValue : ''),
+					'CantidadRegistros' => $xml_resumen->getElementsByTagName('CantidadRegistros')->item(0)->nodeValue,
+					'CantidadIngresados' => $xml_resumen->getElementsByTagName('CantidadIngresados')->item(0)->nodeValue,
+					'CantidadRechazados' => $xml_resumen->getElementsByTagName('CantidadRechazados')->item(0)->nodeValue
+					);
+		}
 
-		$resumen = array(
-				'CodigoOperacion' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)->nodeValue : ''),
-				'FechaIngreso' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('FechaIngreso')->item(0)->nodeValue : ''),
-				'MailUsuario' => ((is_object($xml_resumen->getElementsByTagName('mailUsuario')->item(0)))? $xml_resumen->getElementsByTagName('mailUsuario')->item(0)->nodeValue : ''),
-				'CantidadRegistros' => $xml_resumen->getElementsByTagName('CantidadRegistros')->item(0)->nodeValue,
-				'CantidadIngresados' => $xml_resumen->getElementsByTagName('CantidadIngresados')->item(0)->nodeValue,
-				'CantidadRechazados' => $xml_resumen->getElementsByTagName('CantidadRechazados')->item(0)->nodeValue
-				 );
-
-		$resultado = array('detalleIngresos' => $detalle_ingresos, 'resumen' => $resumen);
-
-		return $resultado;
+		return array('detalleIngresos' => $detalle_ingresos, 'resumen' => $resumen);
 	}
 
 	// =========================================================================
