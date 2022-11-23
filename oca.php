@@ -648,9 +648,9 @@ class Oca
 
 
 		$resumen = array(
-				'CodigoOperacion' => $xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)->nodeValue,
-				'FechaIngreso' => $xml_resumen->getElementsByTagName('FechaIngreso')->item(0)->nodeValue,
-				'MailUsuario' => $xml_resumen->getElementsByTagName('mailUsuario')->item(0)->nodeValue,
+				'CodigoOperacion' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)->nodeValue : ''),
+				'FechaIngreso' => ((is_object($xml_resumen->getElementsByTagName('CodigoOperacion')->item(0)))? $xml_resumen->getElementsByTagName('FechaIngreso')->item(0)->nodeValue : ''),
+				'MailUsuario' => ((is_object($xml_resumen->getElementsByTagName('mailUsuario')->item(0)))? $xml_resumen->getElementsByTagName('mailUsuario')->item(0)->nodeValue : ''),
 				'CantidadRegistros' => $xml_resumen->getElementsByTagName('CantidadRegistros')->item(0)->nodeValue,
 				'CantidadIngresados' => $xml_resumen->getElementsByTagName('CantidadIngresados')->item(0)->nodeValue,
 				'CantidadRechazados' => $xml_resumen->getElementsByTagName('CantidadRechazados')->item(0)->nodeValue
