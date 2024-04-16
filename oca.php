@@ -229,6 +229,46 @@ class Oca
 				
 	}
 
+	/**
+	 * Dado un envío se devuelven todos los eventos.
+	 * 
+	 * @param integer $pieza 
+	 * @param integer $nroDocumentoCliente
+	 * @return array $envios Contiene los valores Desdcripcion_Estado, Fecha
+	 */
+	public function trackingPiezaExtendido($pieza = '', $nroDocumentoCliente = '')
+	{
+		$_query_string = array(	'Pieza'					=> $pieza,
+								'NroDocumentoCliente'	=> $nroDocumentoCliente,
+								'Cuit'					=> $this->Cuit,
+							);
+
+		$ch = curl_init();
+		
+		curl_setopt_array($ch,	array(	CURLOPT_RETURNTRANSFER	=> TRUE,
+										CURLOPT_HEADER			=> FALSE,
+										CURLOPT_USERAGENT		=> $this->setUserAgent(),
+										CURLOPT_CONNECTTIMEOUT	=> 5,
+										CURLOPT_POST			=> TRUE,
+										CURLOPT_POSTFIELDS		=> http_build_query($_query_string),
+										CURLOPT_URL				=> "{$this->webservice_url}/epak_tracking/Oep_TrackEPak.asmx/Tracking_PiezaExtendido",
+										CURLOPT_FOLLOWLOCATION	=> TRUE));
+		$dom = new DOMDocument();
+		@$dom->loadXML(curl_exec($ch));
+		$xpath = new DOMXpath($dom);	
+		
+		$envio = array();
+		foreach (@$xpath->query("//NewDataSet/Table1") as $tp)
+		{
+			$envio[] = array(	'Descripcion_Estado'		=> $tp->getElementsByTagName('Desdcripcion_Estado')->item(0)->nodeValue,
+								'Fecha'		=> $tp->getElementsByTagName('Fecha')->item(0)->nodeValue,
+							);
+		}
+		
+		return $envio;
+				
+	}
+
 	// =========================================================================
 	
 	/**
