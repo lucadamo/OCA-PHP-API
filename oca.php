@@ -669,6 +669,11 @@ class Oca
 		@$dom->loadXml($xml);
 		$xpath = new DOMXPath($dom);
 
+		$xml_errores = @$xpath->query("//Errores")->item(0);
+		$detalle_errores = array();
+		if(is_object($xml_errores)){
+			$detalle_errores[] = $xml_errores->nodeValue;
+		}
 		$xml_detalle_ingresos = @$xpath->query("//Resultado/DetalleIngresos ");
 		$xml_resumen = @$xpath->query("//Resultado/Resumen ")->item(0);
 
@@ -697,7 +702,7 @@ class Oca
 					);
 		}
 
-		return array('detalleIngresos' => $detalle_ingresos, 'resumen' => $resumen);
+		return array('detalleErrores' => $detalle_errores, 'detalleIngresos' => $detalle_ingresos, 'resumen' => $resumen);
 	}
 
 	// =========================================================================
